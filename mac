@@ -47,27 +47,17 @@ fi
 
 ### end mac-components/homebrew
 
-fancy_echo "Installing Postgres, a good open source relational database ..."
-  brew install postgres --no-python
-  initdb /usr/local/var/postgres -E utf8
+fancy_echo "Installing msyql, a good open source relational database ..."
+  brew install mysql
+  mkdir -p ~/Library/LaunchAgents
+  cp /usr/local/Cellar/mysql/`mysql_config --version`/homebrew.mxcl.mysql.plist ~/Library/LaunchAgents/
+  launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
+  unset TMPDIR
+  mysql_install_db --verbose --user=`whoami` --basedir="$(brew --prefix mysql)" --datadir=/usr/local/var/mysql --tmpdir=/tmp
+  /usr/local/Cellar/mysql/`mysql_config --version`/bin/mysqladmin -u root password 'abc123'
 
 fancy_echo "Installing Redis, a good key-value database ..."
   brew install redis
-
-fancy_echo "Installing The Silver Searcher (better than ack or grep) to search the contents of files ..."
-  brew install the_silver_searcher
-
-fancy_echo "Installing vim from Homebrew to get the latest version ..."
-  brew install vim
-
-fancy_echo "Installing ctags, to index files for vim tab completion of methods, classes, variables ..."
-  brew install ctags
-
-fancy_echo "Installing tmux, to save project state and switch between projects ..."
-  brew install tmux
-
-fancy_echo "Installing reattach-to-user-namespace, for copy-paste and RubyMotion compatibility with tmux ..."
-  brew install reattach-to-user-namespace
 
 fancy_echo "Installing ImageMagick, to crop and resize images ..."
   brew install imagemagick
@@ -119,17 +109,10 @@ fancy_echo "Updating to latest Rubygems version ..."
   gem update --system
 
 fancy_echo "Installing critical Ruby gems for Rails development ..."
-  gem install bundler pg rails unicorn --no-document
+  gem install bundler mysql2 rails unicorn --no-document
 
 fancy_echo "Installing GitHub CLI client ..."
   curl http://hub.github.com/standalone -sLo ~/.bin/hub
   chmod +x ~/.bin/hub
 ### end common-components/ruby-environment
-
-fancy_echo "Installing Heroku CLI client ..."
-  brew install heroku-toolbelt
-
-fancy_echo "Installing the heroku-config plugin to pull config variables locally to be used as ENV variables ..."
-  heroku plugins:install git://github.com/ddollar/heroku-config.git
-### end mac-components/heroku
 
