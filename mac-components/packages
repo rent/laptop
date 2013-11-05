@@ -2,10 +2,6 @@ fancy_echo "Installing msyql, a good open source relational database ..."
   brew install mysql
   mkdir -p ~/Library/LaunchAgents
   cp /usr/local/Cellar/mysql/`mysql_config --version`/homebrew.mxcl.mysql.plist ~/Library/LaunchAgents/
-  launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
-  unset TMPDIR
-  mysql_install_db --verbose --user=`whoami` --basedir="$(brew --prefix mysql)" --datadir=/usr/local/var/mysql --tmpdir=/tmp
-  /usr/local/Cellar/mysql/`mysql_config --version`/bin/mysqladmin -u root password 'abc123'
 
 fancy_echo "Installing Redis, a good key-value database ..."
   brew install redis
